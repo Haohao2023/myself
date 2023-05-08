@@ -10,3 +10,7 @@ https://airflow.apache.org/docs/apache-airflow/stable/stable-rest-api-ref.html#o
 
 
 https://stackoverflow.com/questions/68723628/dagbag-does-not-populate-dags-as-expected
+
+http://ec2-13-230-185-152.ap-northeast-1.compute.amazonaws.com:8080
+
+https://zhuanlan.zhihu.com/p/120732877
