@@ -1,0 +1,39 @@
+import requests
+import json
+
+dag_id = "dataset_consumes_12345"
+
+
+class Trigger:
+    # 调用下一个Dag
+    # param dag_run_id: 获取dag_run_id
+
+    def __init__(self):
+        pass
+
+    def trigger_dag(self, event):
+        header = {'Authorization': 'Basic YWlyZmxvdzphaXJmbG93',
+                  'Content-Type': 'application/json'}
+        body = {
+            "dag_run_id": event['dag_run_id']
+        }
+
+        result = requests.get(
+            f"http://43.143.250.12:8080/api/v1/dags/{dag_id}/details",
+            headers=header
+        )
+
+        dag_result = result.json()['dag_id']
+
+        if dag_result is not None:
+            post = requests.post(
+                f"http://43.143.250.12:8080/api/v1/dags/{dag_id}/dagRuns",
+                data=json.dumps(body),
+                headers=header)
+        print(post.text)
+        return result
+
+
+if __name__ == "__main__":
+    event = {"dag_run_id": "hgjfgkflglgrrrr11"}
+    Trigger().trigger_dag(event)
