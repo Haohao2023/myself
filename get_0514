@@ -1,0 +1,54 @@
+import requests
+import json
+from airflow_workspace.utils.postgre_handler import PostgresHandler
+
+# dag_id
+# dag_run_id
+# url
+# username&password
+
+class Trigger:
+    # 调用下一个Dag
+    # param dag_run_id: 获取dag_run_id
+
+    def __init__(self):
+        pass
+
+    def trigger_dag(self, event):
+
+        # dag_id = event['dag_id']
+        ph = PostgresHandler()
+
+        SQ_GET_DAG = """select run_id from fact_dag_details
+                        WHERE dag_id = event['dag_id'] ;
+                        """
+        dag_run_id = ph.get_record(SQ_GET_DAG)
+
+        header = {'Authorization': 'Basic YWlyZmxvdzphaXJmbG93',
+                  'Content-Type': 'application/json'}
+        body = {
+            "dag_run_id": dag_run_id
+        }
+
+        result = requests.get(
+            f"http://54.65.139.140:8080/api/v1/dags/{event.dag_id}/details",
+            headers=header
+        )
+
+        try:
+            dag_result = result.json()['dag_id']
+            if not dag_result:
+                raise KeyError("error")
+            else:
+                post = requests.post(
+                    f"http://54.65.139.140:8080/api/v1/dags/{event.dag_id}/dagRuns",
+                    data=json.dumps(body),
+                    headers=header)
+                print(post.text)
+        except KeyError as e:
+            print("引发异常：", repr(e))
+
+        return result
+
+# if __name__ == "__main__":
+#    Trigger().trigger_dag()
