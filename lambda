@@ -1,0 +1,70 @@
+# 配置AWS提供程序
+provider "aws" {
+  access_key = "YOUR_AWS_ACCESS_KEY"
+  secret_access_key = "YOUR_AWS_SECRET_ACCESS_KEY"
+  region = "us-west-2"   # 替换为您希望使用的AWS区域
+}
+
+# 创建Lambda函数
+resource "aws_lambda_function" "my_lambda_function" {
+  function_name = "my-lambda-function"
+  handler = "index.handler"
+  runtime = "nodejs14.x"
+  role = aws_iam_role.my_lambda_role.arn
+
+  # Lambda函数的代码
+  filename = "${path.module}/lambda-function.zip"
+  source_code_hash = filebase64sha256("${path.module}/lambda-function.zip")
+}
+
+# 创建一个IAM角色
+resource "aws_iam_role" "my_lambda_role" {
+  name = "my-lambda-role"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+# 创建事件桥接规则
+resource "aws_cloudwatch_event_rule" "my_event_rule" {
+  name        = "my-event-rule"
+  description = "Event rule for invoking Step Functions"
+
+  event_pattern = <<EOF
+{
+  "source": ["aws.lambda"],
+  "detail-type": ["Lambda Function Invoke Succeeded", "Lambda Function Invoke Failed"],
+  "detail": {
+    "stateMachineArn": ["YOUR_STATE_MACHINE_ARN"]
+  }
+}
+EOF
+}
+
+# 创建事件目标
+resource "aws_cloudwatch_event_target" "my_event_target" {
+  rule      = aws_cloudwatch_event_rule.my_event_rule.name
+  target_id = "my-event-target"
+  arn       = aws_lambda_function.my_lambda_function.arn
+}
+
+# 将事件桥接规则与事件目标关联
+resource "aws_cloudwatch_event_permission" "my_event_permission" {
+  statement_id   = "AllowEventDelivery"
+  action         = "lambda:InvokeFunction"
+  principal      = "events.amazonaws.com"
+  source_arn     = aws_cloudwatch_event_rule.my_event_rule.arn
+  function_name  = aws_lambda_function.my_lambda_function.function_name
+}
