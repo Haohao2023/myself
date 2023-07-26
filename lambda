@@ -68,3 +68,10 @@ resource "aws_cloudwatch_event_permission" "my_event_permission" {
   source_arn     = aws_cloudwatch_event_rule.my_event_rule.arn
   function_name  = aws_lambda_function.my_lambda_function.function_name
 }
+
+
+resource "aws_glue_catalog_database" "example" {
+  name       = "your_database_name"
+  description = "Your database description"
+  location_uri = "s3://${var.s3_bucket_name}/your_folder/"
+}
