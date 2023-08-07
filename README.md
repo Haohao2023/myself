@@ -1,3 +1,6 @@
+https://c.binjie.fun/#/chat/1690466844585
+
+
 from airflow.models import DagBag
 dag_ids = DagBag(include_examples=False).dag_ids
 for id in dag_ids:
