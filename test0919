@@ -1,0 +1,64 @@
+数据湖  https://zhuanlan.zhihu.com/p/348413190
+        https://www.cnblogs.com/itlz/p/15921638.html
+
+
+https://workshops.aws/card/databrew
+
+
+https://workshops.aws/card/AWS%20Lake%20Formation
+
+AWS Glue Workshop
+https://catalog.us-east-1.prod.workshops.aws/workshops/aaaabcab-5e1e-4bff-b604-781a804763e1/en-US
+
+Data Preparation using Amazon SageMaker and Glue DataBrew
+https://catalog.us-east-1.prod.workshops.aws/workshops/1e224d5a-4273-444a-acec-28d44a5bfb28/en-US/data-preparation/amazon-glue-data-brew
+
+
+SageMaker Immersion Day
+https://catalog.us-east-1.prod.workshops.aws/workshops/63069e26-921c-4ce1-9cc7-dd882ff62575/en-US
+
+AWS Glue DataBrew Immersion Day
+https://catalog.us-east-1.prod.workshops.aws/workshops/6532bf37-3ad2-4844-bd26-d775a31ce1fa/en-US
+
+Athna  
+databrew 不需coding 可视 数据分析 比glue轻量级
+
+部署~~
+
+
+DataBrew和Lake Formation 关联
+数据仓库和数据湖
+
+DataBrew和Glue  Athna
+
+Terraform和Cloudfoumation
+Jenkins和Gitaction
+
+图
+https://aws.amazon.com/blogs/big-data/prepare-transform-and-orchestrate-your-data-using-aws-glue-databrew-aws-glue-etl-and-aws-step-functions/
+
+
+https://aws.amazon.com/blogs/big-data/enable-self-service-data-publication-to-your-data-lake-using-aws-glue-databrew/
+
+
+https://aws.amazon.com/blogs/big-data/tag/aws-lake-formation/
+
+
+
+cloudformation
+glue spark
+Jenkins
+
+Airflow Dag
+
+Jenkins deployment glue pyspark
+Airflow execute glue
+
+
+Step Function learning
+Gitaction
+
+Terraform development eventbridge lambda glue stepfuction
+
+databrew learning
+Terraform development databrew
